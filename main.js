@@ -44,7 +44,6 @@ console.log("Punteggio Massimo: " + punteggioMax);
 while (listaMine.length < numBombe){
 
     var minaRandom = generatoreNumCasuale(maxNumeri);
-    console.log("Numero generato: " + minaRandom);
 
     // Se il numero generato non è presente nel array delle mine, inseriscilo
     if (listaMine.includes(minaRandom) == false){
@@ -61,9 +60,12 @@ console.log("Lista numeri mine: " + listaMine);
 do {
     inputNumber = parseInt( prompt('Inserisci un numero da 1 a ' + maxNumeri) );
 
+    // Variabile di controllo per vedere se ha scelto un input non valido
     var isNumeroValido = isValidInput(inputNumber, maxNumeri);
-    var isGameOver = isUnaMina( inputNumber, listaMine);
-    var isRepited = isUnaRipetizione( inputNumber, numeriChiamati);
+    // Variabile di controllo per vedere se ha scelto un numero-mina
+    var isGameOver = isInTheArray( inputNumber, listaMine);
+    // Variabile di controllo per vedere se ha scelto un numero già chiamato
+    var isRepited = isInTheArray( inputNumber, numeriChiamati);
 
     if (isNumeroValido == false){
         alert("Numero inserito non valido");
@@ -73,6 +75,7 @@ do {
     } else if (isRepited == false) {
         numeriChiamati.push(inputNumber)
         console.log("Inserito numero: " + inputNumber);
+        console.log("Lista numeri chiamati: " + numeriChiamati);
     } else {
         alert("Numero " + inputNumber + " già presente!");
     }
@@ -96,23 +99,16 @@ function isValidInput(userInput, maxRange){
     }
 }
 
-// Verifica se un numero è presente nel array delle mine
-function isUnaMina( sceltaUtente, arrayMine){
-    if (arrayMine.includes(sceltaUtente) == true){
-        return true;
-    } else {
-        return false;
-    }
-}
-
-function isUnaRipetizione( sceltaUtente, arrayNumeriChiamati){
-    if (arrayNumeriChiamati.includes(sceltaUtente) == true){
-        return true;
-    } else {
-        return false;
-    }
-}
-
+// General numero casuale
 function generatoreNumCasuale(max){
     return Math.floor( Math.random(max) * 100 ) + 1;
+}
+
+// Verifica se un numero è presente nel array delle mine
+function isInTheArray( selectedNumber, arrayInvolved){
+    if (arrayInvolved.includes(selectedNumber) == true){
+        return true;
+    } else {
+        return false;
+    }
 }
